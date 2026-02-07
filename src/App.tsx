@@ -46,9 +46,12 @@ function App() {
 
     // load untill load all pages
     while (shouldLoadMore) {
-      const data = await fetch(`${selectedFolder}&page=${page}`).then((res) =>
-        res.text(),
-      );
+      const worker_url =
+        'https://goodreads-random-proxy.petro-husak-1998.workers.dev/';
+      const requiredUrl = `${selectedFolder}&page=${page}`;
+      const url = `${worker_url}/?url=${encodeURIComponent(requiredUrl)}`;
+
+      const data = await fetch(url).then((res) => res.text());
       const xmlDoc = new XMLParser().parseFromString(data);
 
       const items = xmlDoc.getElementsByTagName('item');
@@ -98,7 +101,7 @@ function App() {
     );
     setIsLoading(false);
   };
-  
+
   return (
     <div className="bg">
       <div className="topBlock">
